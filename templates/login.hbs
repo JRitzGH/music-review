@@ -3,25 +3,28 @@
 <head>
     <meta charset ="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="formbox">
+        <h1>Log In</h1>
 
-    <form action="/login" method="POST">
+        <form action="/login" method="POST" class="formtext">
     
-    <input type="text" name="name" placeholder="Name" autocomplete="off">
-    <br>
-    <input type="password" name="password" placeholder="Password" autocomplete="off">
-    <br>
-    <input type="submit" class="sub">
+            <input type="text" class="logInput" name="name" placeholder="Name" autocomplete="off">
+            <br>
+            <input type="password" class="logInput" name="password" placeholder="Password" autocomplete="off">
+            <br>
+            <input type="submit" class="sub" value="Login">
 
-    <h3>Don't have an account?</h3>
-    <a href="/signup">Go to signup page</a>
+            <h3 class="ac">Don't have an account?</h3>
+            <a href="/signup" class="linker">Sign up!</a>
 
 
 
-    </form>
+        </form>
+    </div>
 </body>
 </html>

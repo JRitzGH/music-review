@@ -3,24 +3,29 @@
 <head>
     <meta charset ="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, intial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-    <h1>Signup</h1>
+    <div class="formbox">
+        <h1 class="headText">Sign Up</h1>
 
-    <form action="/signup" method="POST">
+        <form action="/signup" method="POST">
     
-    <input type="text" name="name" placeholder="Name" autocomplete="off">
-    <br>
-    <input type="password" name="password" placeholder="Password" autocomplete="off">
-    <br>
-    <input type="submit" class="sub">
-    
-    <a href="/">Go to login page</a>
+            <input type="text" class="logInput" name="name" placeholder="Name" autocomplete="off">
+            <br>
+            <input type="password" class="logInput" name="password" placeholder="Password" autocomplete="off">
+            <br>
+            <input type="submit" class="sub" value="Sign Up">
+            <br>
+
+            <h3 class="ac">Already have an account?</h3>
+            <a href="/" class="linker">Log in!</a>
 
 
     
-    </form>
+        </form>
+    </div>
 </body>
 </html>
