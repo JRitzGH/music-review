@@ -1,12 +1,11 @@
 const mongoose=require("mongoose")
+mongoose.set("strictQuery", false);
+const mongoDB = "mongodb://127.0.0.1:27017/UserAuth";
 
-mongoose.connect("mongodb://localhost:27017/UserAuth")
-.then(()=>{
-    console.log("mongo connected")
-})
-.catch(()=>{
-    console.log("error")
-})
+main().catch((err) => console.log(err));
+async function main() {
+    await mongoose.connect(mongoDB);
+}
 
 const Schema=new mongoose.Schema({
     name:{
