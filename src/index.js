@@ -20,6 +20,21 @@ app.set("views", templatePath)
 app.use(express.static(publicPath))
 
 
+
+async function hashPass(password) {
+    
+    const res=await bcryptjs.hash(password,10)
+    return res
+
+}
+
+async function compare(userPass, hashPass) {
+    
+    const res=await bcryptjs.compare(userPass, hashPass)
+    return res
+
+}
+
 app.get("/",(req,res)=>{
     res.render("login")
 })
@@ -40,11 +55,13 @@ app.post("/signup", async(req,res)=>{
             
             const data={
                 name:req.body.name,
-                password:req.body.password,
+                password:await hashPass(req.body.password),
                 token:token
             }
 
             await Collection.insertMany([data])
+
+            res.render("home", {name:req.body.name})
         }
     }
     catch{
@@ -53,6 +70,25 @@ app.post("/signup", async(req,res)=>{
 
     }
 })
+
+app.post("/login", async(req,res)=>{
+    try{
+        const check=await Collection.findOne({name:req.body.name})
+        const passCheck=await compare(req.body.password,check.password)
+
+        if (check && passCheck){
+            res.render("home",{name:req.body.name})
+        } else {
+            res.send("Incorrect Username or Password")
+        }
+    }
+    catch{
+
+        res.send("wrong details")
+
+    }
+})
+
 
 
 app.listen(3000, ()=>{

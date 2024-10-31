@@ -1,11 +1,18 @@
-const mongoose=require("mongoose")
-mongoose.set("strictQuery", false);
-const mongoDB = "mongodb://127.0.0.1:27017/UserAuth";
+const mongoose=require("mongoose");
 
-main().catch((err) => console.log(err));
-async function main() {
-    await mongoose.connect(mongoDB);
-}
+const uri = 'mongodb://127.0.0.1:27017/UserAuth';
+
+mongoose.connect(uri)
+.then(() => {
+    console.log('Connected to MongoDB');
+})
+.catch(err => {
+    console.error('Connection error', err);
+});
+
+application.get('/', (req,res) => {
+    res.send('Hello World');
+});
 
 const Schema=new mongoose.Schema({
     name:{
