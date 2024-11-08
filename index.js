@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwtSecret = process.env.JWT_SECRET;
+const { DBLINK } = require('./key.js');
 
 const express=require('express');
 const path=require('path');
@@ -19,7 +20,7 @@ app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'templates'));
 
-const uri = "mongodb+srv://jritz:G68JJkAI1AEmVZ7B@userauth.7pcui.mongodb.net/?retryWrites=true&w=majority&appName=UserAuth";
+const uri = DBLINK;
 
 mongoose.connect(uri)
     .then(() => console.log('Connected to DB'))
