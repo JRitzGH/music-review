@@ -28,7 +28,7 @@ mongoose.connect(uri)
 
 const User = require('./src/User');
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login');
 });
 
@@ -36,16 +36,21 @@ app.get('/signup', (req, res) => {
     res.render('signup');
 });
 
-//function authMiddleware(req, res, next) {
-//    const token = req.cookies.authToken;
-//   if (!token) return res.status(401).send('Access Denied');
-//
-//    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//        if (err) return res.status(401).send('Invalid Token');
-//        req.user = decoded;
-//        next();
-//    });
-//}
+app.get('/', authMiddleware, (req, res) => {
+    res.render('home', { name: req.cookies.userInfo });
+});
+
+function authMiddleware(req, res, next) {
+    const token = req.cookies.authToken;
+    const userToken = req.cookies.userInfo;
+    if (!token || !userToken) return res.redirect('/login');
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(401).send('Invalid Token');
+        req.user = decoded;
+        next();
+    });
+}
 
 //app.get('/dashboard', authMiddleware, (req, res) => {
 //    res.send('Welcome to the dashboard!');
@@ -57,7 +62,7 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({ userLower: usernameLower });
 
     if (!user) {
-        return res.render('login', { error: 'User not found' });
+        return res.render('login', { error: 'Invalid Credentials' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -68,8 +73,9 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: '1h'});
 
     res.cookie('authToken', token, { httpOnly: true });
+    res.cookie('userInfo', username, { httpOnly: true });
 
-    res.render('home', { name: user.username});
+    res.redirect('/');
 });
 
 app.post('/signup', async (req, res) => {
@@ -92,6 +98,7 @@ app.post('/signup', async (req, res) => {
 
 app.get('/logout', (req, res) => {
     res.clearCookie('authToken');
+    res.clearCookie('userInfo');
     res.redirect('/');
 });
 
