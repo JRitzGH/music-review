@@ -13,7 +13,7 @@
 
         <form action="/login" method="POST" class="formtext">
     
-            <input type="text" class="logInput" name="name" placeholder="Name" autocomplete="off">
+            <input type="text" class="logInput" name="username" placeholder="Name" autocomplete="off">
             <br>
             <input type="password" class="logInput" name="password" placeholder="Password" autocomplete="off">
             <br>
@@ -25,6 +25,12 @@
 
 
         </form>
+        
+    </div>
+    <div class="errbox">
+        {{#if error}}
+            <p class="err">{{error}}</p>
+        {{/if}}
     </div>
 </body>
 </html>
